@@ -1,2 +1,4 @@
-# MyTrek
-Hackathon Chartres - WCS - 12-13/05/2016
+hackathon
+=========
+
+A Symfony project created on May 12, 2016, 10:46 am.

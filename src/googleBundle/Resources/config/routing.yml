@@ -1,0 +1,11 @@
+google_homepage:
+    path:     /
+    defaults: { _controller: googleBundle:Default:index }
+
+google_add_marker:
+    path:     /add/marker
+    defaults: { _controller: googleBundle:Default:addMarker }
+
+google_check_iti:
+    path:     /check/iti
+    defaults: { _controller: googleBundle:Default:dashboardIti }

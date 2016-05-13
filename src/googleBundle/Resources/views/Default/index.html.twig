@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	<script>
+
+	var myCenter=new google.maps.LatLng(48.8534100,2.3488000
+
+	);  
+
+	    function initialize()
+	    {
+	        var mapProp = {
+	          center:myCenter,
+	          zoom:5,
+	          mapTypeId:google.maps.MapTypeId.ROADMAP
+	          };
+
+	        var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+	        {% for marker in markers %}
+
+	        	var coord=new google.maps.LatLng({{ marker.latitude }},{{ marker.longitude }});  
+	        	var marker=new google.maps.Marker({
+		          position:coord
+		          });
+
+		        marker.setMap(map);
+
+	        {% endfor %}
+
+	        google.maps.event.addListener(map, 'click', function(event) {
+	            placeMarker(event.latLng);
+	          });
+	         
+	        var marker;
+	        function placeMarker(location) 
+	        {
+				marker = new google.maps.Marker({ //on créé le marqueur
+				  position: location,
+				  map: map
+				});
+	          	document.getElementById("latitude").value=location.lat();
+	          	document.getElementById("longitude").value=location.lng();
+	        }
+	    }
+
+	    google.maps.event.addDomListener(window, 'load', initialize);
+	</script>
+
+	<div class="col-md-12 main-map">
+
+		<h3 style="font-size:35px;"><strong>Contributions d'Utilisateurs</strong></h3>
+
+		<img class="illustration" src="{{ asset('img/back.jpg') }}">
+
+		<img class="illustration-back" src="{{ asset('img/backback.jpg') }}">
+
+		<div id="googleMap" style="margin:auto;width:70%;height:400px;"></div>
+
+	</div>
+
+	<div class="col-md-12 three">
+		<div class="col-md-4">
+			<div class="col-md-6 col-md-offset-3 three-part">
+				<h3 style="margin:auto;"><strong>Walking</strong></h3>
+				<div class="col-md-12" style="height:200px;">
+					<img class="illustration-front" src="{{ asset('img/icon.png') }}">
+				</div>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</p>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="col-md-6 col-md-offset-3 three-part">
+				<h3 style="margin:auto;"><strong>Cycling</strong></h3>
+				<div class="col-md-12" style="height:200px;">
+					<img class="illustration-front" src="{{ asset('img/icon3.png') }}">
+				</div>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</p>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="col-md-6 col-md-offset-3 three-part">
+				<h3 style="margin:auto;"><strong>Rewards</strong></h3>
+				<div class="col-md-12" style="height:200px;">
+					<img class="illustration-front" src="{{ asset('img/icon2.png') }}">
+				</div>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut.</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12 transp">
+		<h2 style="font-size:100px;margin-top:80px;color:#FFFFFF"><i>My Trek</i></h2>
+		<h3 style="font-size:50px;color:#FFFFFF">Wild Code School</h3>
+	</div>
+
+{% endblock %}

@@ -1,0 +1,210 @@
+.main-map
+{
+	text-align:center;
+	position:relative;
+	padding:25px;
+	margin-top:-25px;
+}
+
+.main-map h3
+{
+	color:#FFFFFF;
+}
+
+.main-user
+{
+	margin-top:25px;
+}
+
+.profil-map
+{
+	text-align:center;
+}
+
+.profil-itineraire-map
+{
+	text-align:center;
+	background-color:#313131;
+	min-height:525px;
+	opacity:0.9;
+}
+
+.illustration
+{
+	position:absolute;
+	height:100%;
+	width:100%;
+	top:0%;
+	left:0%;
+	z-index:-1;
+}
+
+.illustration-front
+{
+	position:absolute;
+	height:100%;
+	width:100%;
+	top:0%;
+	left:0%;
+}
+
+.illustration-back
+{
+	position:fixed;
+	height:100%;
+	width:100%;
+	top:0%;
+	left:0%;
+	z-index:-2;
+}
+
+.illustration-fix
+{
+	position:fixed;
+	height:100%;
+	width:100%;
+	top:0%;
+	left:0%;
+	z-index:-1;
+}
+
+.form-map-section
+{
+	padding-top:25px;
+	min-height:125px;
+	background-color:#101010;
+	text-align:center;
+	opacity:0.9;
+}
+
+.green
+{
+	color:#64FE2E
+}
+
+.iti-create
+{
+	height:30px;
+}
+
+.iti-detail
+{
+	height:200px;
+	overflow-y:scroll;
+	background-color:#D8D8D8;
+}
+
+.profil-itineraire-text
+{
+	height:90px;
+}
+
+.profil-itineraire-text h3
+{
+	color:#FFFFFF;
+}
+
+.user-info
+{
+	height:200px;
+}
+
+.user-avatar
+{
+	height:200px;
+	background-color:#FFFFFF;
+	position:relative;
+}
+
+.topfooter
+{
+	height:10px;
+	background-color:#64FE2E;
+	margin-top:50px;
+}
+
+.mainfooter
+{
+	height:190px;
+	background-color:#333331;
+	padding-top:30px;
+}
+
+.user-reward
+{
+	background-color:#FFFFFF;
+	height:200px;
+	opacity:0.7;
+	padding-top:25px;
+}
+
+.form-title
+{
+	text-align:center;
+	padding:5px;
+}
+
+.form-part-text
+{
+	text-align:right;
+	margin-top:10px;
+}
+
+.form-part-input
+{
+	text-align:left;
+	margin-top:10px;
+}
+
+.form-global
+{
+	padding:10px;
+	border:solid black 1px;
+	background-color:#FFFFFF;
+}
+
+.footer-part
+{
+	text-align:center;
+}
+
+.iti-select
+{
+	min-height:100px;
+}
+
+.iti-select h3
+{
+	color:#FFFFFF;
+}
+
+.three
+{
+	background-color:#FFFFFF;
+	height:440px;
+	padding:20px;
+}
+
+.three-part
+{
+	height:300px;
+	padding:20px;
+	border:solid #FFFFFF 10px;
+	position:relative;
+	text-align:center;
+}
+
+.rounded
+{
+	margin:auto;
+	height:150px;
+	width:150px;
+	border-radius:100px;
+	background-color:#FFFFFF;
+}
+
+.transp
+{
+	height:300px;
+	text-align:center;
+}

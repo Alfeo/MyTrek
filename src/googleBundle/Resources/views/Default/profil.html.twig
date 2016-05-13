@@ -1,0 +1,299 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	<img class="illustration-fix" src="{{ asset('img/profil.jpg') }}">
+
+<script>
+
+	var myCenter=new google.maps.LatLng(48.8534100,2.3488000
+
+	);  
+
+	    function initialize()
+	    {
+	        var mapProp = {
+	          center:myCenter,
+	          zoom:5,
+	          mapTypeId:google.maps.MapTypeId.ROADMAP
+	          };
+
+	        var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+	        {% if myiti == 0 %}
+
+	        {% for mymarker in mymarkers %}
+
+	        	var coord=new google.maps.LatLng({{ mymarker.latitude }},{{ mymarker.longitude }});  
+	        	var marker=new google.maps.Marker({
+		          position:coord
+		          });
+
+		        marker.setMap(map);
+
+	        {% endfor %}
+
+		    {% endif %}
+
+	        google.maps.event.addListener(map, 'click', function(event) {
+	            placeMarker(event.latLng);
+	          });
+	         
+	        var marker;
+	        function placeMarker(location) 
+	        {
+				marker = new google.maps.Marker({ //on créé le marqueur
+				  position: location,
+				  map: map
+				});
+	          	document.getElementById("latitude").value=location.lat();
+	          	document.getElementById("longitude").value=location.lng();
+	        }
+
+	        {% if myiti == 1 %}
+
+		        var directionsService = new google.maps.DirectionsService();
+		         var directionsDisplay = new google.maps.DirectionsRenderer();
+		        
+		         directionsDisplay.setMap(map);
+		         directionsDisplay.setPanel(document.getElementById('panel'));
+		    
+		         var request = {
+		         	origin: new google.maps.LatLng({{markera.latitude}}, {{markera.longitude}}), // Pass this in place of the address 'Akin Ogunlewe street VI'
+	        destination: new google.maps.LatLng({{markerb.latitude}}, {{markerb.longitude}}), // Pass this in place of the address 'Falolu road Surulere'
+
+	        {% if travel is defined and travel == 0 %}
+
+	        travelMode: google.maps.DirectionsTravelMode.WALKING
+
+	        {% endif %}
+
+	        {% if travel is defined and travel == 1 %}
+
+	        travelMode: google.maps.DirectionsTravelMode.BICYCLING
+
+	        {% endif %}
+		         };
+		    
+		         directionsService.route(request, function(response, status) {
+		           if (status == google.maps.DirectionsStatus.OK) {
+		             directionsDisplay.setDirections(response);
+		           }
+		         });
+
+		    {% endif %}
+		    var styles = [
+			  {
+			    stylers: [
+			      { hue: "#64FE2E" },
+			      { saturation: 100 }
+			    ]
+			  },{
+			    featureType: "road",
+			    elementType: "geometry",
+			    stylers: [
+			      { lightness: 100 },
+			      { visibility: "simplified" }
+			    ]
+			  },{
+			    featureType: "road",
+			    elementType: "labels",
+			    stylers: [
+			      { visibility: "off" }
+			    ]
+			  }
+			];
+
+			map.setOptions({styles: styles});
+		}
+
+	    google.maps.event.addDomListener(window, 'load', initialize);
+	</script>
+
+	{% for label, flashes in app.session.flashbag.all %}
+	    {% for flash in flashes %}
+	        <div class="alert alert-{{ label }}">
+	            {{ flash }}
+	        </div>
+	    {% endfor %}
+	{% endfor %}
+
+	<div class="col-md-12">
+		<div class="col-md-12 user-info">
+			<div class="col-md-2 user-avatar">
+				<img class="illustration-front" src="{{ asset('img/avatar.png') }}">
+			</div>
+			<div class="col-md-10 user-reward">
+				<div class="col-md-6">
+					<h3><strong>{{ app.user.username }}</strong></h3>
+					<h3>Nombre de contributions : {{ allmark }} </h3>
+					<h3>Nombre d'itinéraires crées : {{ datauser.nbiti }}</h3>
+				</div>
+				<div class="col-md-2 col-md-offset-2" style="height:150px;">
+					{% if allmark >= 10 %}
+						<img alt="Top Marker !" class="illustration-front" src="{{ asset('img/badge1.png') }}">
+					{% endif %}
+				</div>
+				<div class="col-md-2" style="height:150px">
+					{% if datauser.nbiti >= 10 %}
+						<img alt="Top Traceur !" class="illustration-front" src="{{ asset('img/badge2.png') }}">
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12 main-user">
+		<div class="col-md-6 profil-map">
+
+			<div id="googleMap" style="margin:auto;width:100%;height:400px;"></div>
+
+			<div class="col-md-12 form-map-section">
+				<form method="POST" action="{{ path('google_add_marker') }}">
+					<div class="col-md-12">
+						<div class="col-md-3">
+							<p class="green">1 - Longitude</p>
+							<p>
+							<input readonly class="col-md-10 col-md-offset-1" id="longitude" type="text" name="longitude" value="Cliquez sur la carte">
+							</p>
+						</div>
+						<div class="col-md-3">
+							<p class="green">2 - Latitude</p>
+							<p>
+								<input readonly class="col-md-10 col-md-offset-1" id="latitude" type="text" name="latitude" value="Cliquez sur la carte">
+							</p>
+						</div>
+						<div class="col-md-3">
+							<p class="green">3 - Nommez !</p>
+							<p>
+								<input class="col-md-10 col-md-offset-1" type="text" name="markerName">
+							</p>
+						</div>
+						<div class="col-md-3">
+							<p class="green">4 - Publiez !</p>
+							<p>
+							<input class="col-md-10 col-md-offset-1 btn btn-success" type="submit" value="Publier">
+							</p>
+						</div>
+					</div>
+				</form>
+			</div>
+
+		</div>
+
+		<div class="col-md-6">
+			<form method="POST" action="{{ path('google_check_iti') }}">
+			<div class="col-md-12 profil-itineraire-map">
+				<div class="col-md-12 profil-itineraire-text">
+					<h3>Tracez votre Itinéraire !<h3>
+					<hr>
+				</div>
+				<div class="col-md-12 iti-create">
+					<select name="begin">
+						<option selected >Point de départ</option>
+						{% for mymarker in mymarkers %}
+					  		<option value="{{ mymarker.name }}">{{mymarker.name }}</option>
+						{% endfor %}
+					</select>
+					<select name="end">
+						<option selected >Point d'arrivée</option>
+						{% for mymarker in mymarkers %}
+					  		<option value="{{ mymarker.name }}">{{mymarker.name }}</option>
+						{% endfor %}
+					</select>
+					<select name="travel">
+						<option value="0">Marche</option>
+						<option value="1">Vélo</option>
+					</select>
+				</div>
+				<div class="col-md-12 iti-select">
+					<h3>OU</h3>
+					<select name="itineraire">
+						<option selected value="0" >Choisissez un itinéraire</option>
+						{% set compteur = 1 %}
+						{% for iti in allIti %}
+							<option value="{{ iti.id }}">Itinéraire {{ compteur }} ({% if iti.travel == 0 %}Marche{% endif %}{% if iti.travel == 1 %}Vélo{% endif %})</option>
+							{% set compteur = compteur + 1 %}
+						{% endfor %}
+					</select>
+				</div>
+				<div class="col-md-12 profil-itineraire-text">
+					<input type="submit" value="Valider" class="btn btn-success">
+				</div>
+				{% if myiti == 1 %}
+					<div class="col-md-8 iti-detail">
+						<div id="panel" style="width: 100%;"></div>
+					</div>
+					<div class="col-md-4">
+						<div class="col-md-12">
+							<div class="col-md-6" style="height:50px;">
+								<h3 style="color:#64FE2E;"> A</h3>
+							</div>
+							{% if meteoa == "Rain" %}
+								<div class="col-md-6" style="height:50px;">
+									<img class="illustration-front" src="{{ asset('img/pluie.png') }}">
+								</div>
+							{% endif %}
+							{% if meteoa == "Snow" %}
+								<div class="col-md-6" style="height:50px;">
+									<img class="illustration-front" src="{{ asset('img/snow.png') }}">
+								</div>
+							{% endif %}
+							{% if meteoa == "Clear" %}
+								<div class="col-md-6" style="height:50px;">
+									<img class="illustration-front" src="{{ asset('img/sun.png') }}">
+								</div>
+							{% endif %}
+							{% if meteoa == "Clouds" %}
+								<div class="col-md-6" style="height:50px;">
+									<img class="illustration-front" src="{{ asset('img/clouds.png') }}">
+								</div>
+							{% endif %}
+							{% if meteoa == "Mist" %}
+								<div class="col-md-6" style="height:50px;">
+									<img class="illustration-front" src="{{ asset('img/mist.png') }}">
+								</div>
+							{% endif %}
+						</div>
+						<div class="col-md-12" style="margin-top:50px;">
+							<div class="col-md-6" style="height:50px;">
+								<h3 style="color:#FE2E2E;"> B</h3>
+							</div>
+							{% if meteob == "Rain" %}
+								<div class="col-md-6" style="height:50px;">
+									<img class="illustration-front" src="{{ asset('img/pluie.png') }}">
+								</div>
+							{% endif %}
+							{% if meteob == "Snow" %}
+								<div class="col-md-6" style="height:50px;">
+									<img class="illustration-front" src="{{ asset('img/snow.png') }}">
+								</div>
+							{% endif %}
+							{% if meteob == "Clear" %}
+								<div class="col-md-6" style="height:50px;">
+									<img class="illustration-front" src="{{ asset('img/sun.png') }}">
+								</div>
+							{% endif %}
+							{% if meteob == "Clouds" %}
+								<div class="col-md-6" style="height:50px;">
+									<img class="illustration-front" src="{{ asset('img/clouds.png') }}">
+								</div>
+							{% endif %}
+							{% if meteob == "Mist" %}
+								<div class="col-md-6" style="height:50px;">
+									<img class="illustration-front" src="{{ asset('img/mist.png') }}">
+								</div>
+							{% endif %}
+						</div>
+					</div>
+				{% else %}
+					<div class="col-md-12 iti-detail">
+						<div id="panel" style="width: 100%;"></div>
+					</div>
+				{% endif %}
+			</div>
+		</form>
+		</div>
+	</div>
+
+{% endblock %}

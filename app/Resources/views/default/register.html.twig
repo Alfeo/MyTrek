@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+<img class="illustration-fix" src="{{ asset('img/women.jpeg') }}">
+
+<div class="col-md-12">
+
+	{{ form_start(form, {'method': 'post', 'action': path('user_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+
+	<div class="col-md-6 col-md-offset-3 form-global">
+		<div class="col-md-12 form-title">
+			<h3>Enregistrement</h3>
+		</div>
+
+		<div class="col-md-12 ">
+    		<div class="col-md-12 form-title">
+		    	Nom d'utilisateur :
+		    </div>
+			<div class="col-md-12 form-title">
+				{{ form_widget(form.username) }}
+				{{ form_errors(form.username) }}
+		    </div>
+		</div>
+
+		<div class="col-md-12">
+    		<div class="col-md-12 form-title">
+		    	Adresse E-mail :
+		    </div>
+			<div class="col-md-12 form-title">
+				{{ form_widget(form.email) }}
+				{{ form_errors(form.email) }}
+		    </div>
+		</div>
+
+		<div class="col-md-12">
+    		<div class="col-md-12 form-title">
+		    	Mot de passe :
+		    </div>
+			<div class="col-md-12 form-title">
+				{{ form_widget(form.plainPassword.first) }}
+				{{ form_errors(form.plainPassword.first) }}
+		    </div>
+		</div>
+
+		<div class="col-md-12">
+    		<div class="col-md-12 form-title">
+		    	Confirmation :
+		    </div>
+			<div class="col-md-12 form-title">
+				{{ form_widget(form.plainPassword.second) }}
+				{{ form_errors(form.plainPassword.second) }}
+		    </div>
+		</div>
+
+    	<div class="col-md-12 form-title">
+	        <input class="btn btn-success" type="submit" value="{{ 'registration.submit'|trans }}" />
+	    </div>
+	</div>
+	{{ form_end(form) }}
+</div>
+
+{% endblock %}
